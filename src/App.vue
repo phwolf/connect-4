@@ -29,7 +29,7 @@ export default {
   components: { discTile },
   data () {
     return {
-      dimension: {x: 7, y: 8},
+      dimension: {x: 7, y: 6},
       player: 0,
       bordConst: null,
       winningDiscs: null,
