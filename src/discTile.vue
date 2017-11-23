@@ -22,7 +22,7 @@ export default {
   methods: {
     handleClick() {
       if (this.state == null) {
-        console.log(this.index)
+        // console.log(this.index);
         this.$emit('clicked', this.index);
       }
     }

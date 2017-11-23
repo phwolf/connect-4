@@ -1,8 +1,12 @@
 <template>
   <div id="app">
+    <h1> connect 4 </h1>
+
     <div class="header">
       {{ playerNames[player] }}'s turn
     </div>
+
+    <!-- the bord -->
     <table>
       <tr v-for="(row, ridx) in bordConst">
         <td v-for="(col, cidx)  in row"> 
@@ -16,7 +20,21 @@
         </td>
       </tr>
     </table>
+
+    <!-- a super simple modal -->
+    <div v-if="modalOpen">
+      <div class="backdrop"></div>
+      <div class="modal">
+        <div class="modalcontent">
+          {{ winner }} wins!
+          <button v-on:click="closeModal">ok</button>
+        </div>
+        
+      </div>
+    </div>
+
   </div>
+
 </template>
 
 <script>
@@ -33,10 +51,41 @@ export default {
       player: 0,
       bordConst: null,
       winningDiscs: null,
-      playerNames: ['orange', 'blue']
+      playerNames: ['orange', 'blue'],
+      modalOpen: false,
+      winner: null
     }
   },
   mounted () {
+    this.initializeBord();   
+  },
+  methods: {
+    handleDisc(e) {
+      // Vue.set(this.bordConst[e.ridx], e.cidx, this.player);
+      this.bordConst[e.ridx][e.cidx] = this.player;
+      var correctedArray = this.applyGravity(this.bordConst, this.dimension.x, this.dimension.y);
+      this.bordConst = correctedArray;
+
+      this.player = (this.player + 1) % 2;
+      var result = this.checkWinCondition(this.bordConst, this.dimension.x, this.dimension.y);
+
+      // what to do when win happend
+      if (result.win) {
+        result.discs.forEach( d => {
+          Vue.set(this.winningDiscs[d.row], d.col, true);
+        })
+        this.winner = this.playerNames[result.player];
+        this.modalOpen = true;
+        this.player = (result.player + 1) % 2;
+      }
+
+    },
+    closeModal() {      
+      // reset the game
+      this.initializeBord();
+      this.modalOpen = false;
+    },
+    initializeBord () {
     var res = [], i, j;
     // initialize bord constellation
     for (i = 0; i < this.dimension.y; i++) {
@@ -54,25 +103,7 @@ export default {
         res[i].push(false);
       }
     }
-    this.winningDiscs = res;    
-  },
-  methods: {
-    handleDisc(e) {
-      // Vue.set(this.bordConst[e.ridx], e.cidx, this.player);
-      this.bordConst[e.ridx][e.cidx] = this.player;
-      var correctedArray = this.applyGravity(this.bordConst, this.dimension.x, this.dimension.y);
-      this.bordConst = correctedArray;
-
-      this.player = (this.player + 1) % 2;
-      var result = this.checkWinCondition(this.bordConst, this.dimension.x, this.dimension.y);
-
-      // what to do when win happend
-      if (result.win) {
-        result.discs.forEach( d => {
-          Vue.set(this.winningDiscs[d.row], d.col, true);
-        })
-      }
-
+    this.winningDiscs = res; 
     },
     checkWinCondition(arr, dimx, dimy) {
       var me = this, check1, check2, check3, i, j;
@@ -254,21 +285,47 @@ table {
   font-size: 4vw;
   margin-bottom: 10px;
 }
-/*h1, h2 {
-  font-weight: normal;
+
+.backdrop {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: lightgrey;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
-li {
-  display: inline-block;
-  margin: 0 10px;
+.modalcontent {
+
+  margin-left: auto;
+  margin-right: auto;
+  /*margin-top: 40vh;*/
+  background-color: white;
+  width: 50vw;
+  opacity: 1;
+  height: 35px;
+  padding-top: 10px;
+  border-radius: 2px;
+  border: solid 1.5px grey;
 }
 
-a {
-  color: #42b983;
-}*/
+button {
+  background-color: grey;
+  border: solid 1px;
+  border-radius: 2px;
+  outline: none;
+  color: white;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
 </style>
