@@ -3,7 +3,7 @@
     v-bind:class="[state === 0 || state === 1 ? 'tileclicked' : 'tile']"
     v-bind:style="{
       'background-color': state === 0 || state === 1 ? colors[state] : 'white',
-      'border': win ? 'solid 1.5px red' : 'solid 1.5px white'
+      'border': win ? 'solid 1.5px #e43437' : 'solid 1.5px lightgrey'
     }"
     v-on:click="handleClick"
     >
@@ -16,7 +16,7 @@ export default {
   props: ['state', 'win', 'index'],
   data () {
     return {
-      colors: ['orange', 'steelblue']
+      colors: ['#febf33', '#344e5c']
     }
   },
   methods: {
@@ -32,15 +32,19 @@ export default {
 
 <style>
   .tile {
-    border-radius: 25px;
-    height: 50px;
-    width: 50px;
+    border-radius: 3.5vw;
+    height: 7vw;
+    width: 7vw;
+    max-height: 35px;
+    max-width: 35px;
     cursor: pointer;
   }
   .tileclicked {
-    border-radius: 25px;
-    height: 50px;
-    width: 50px;
+    border-radius: 3.5vw;
+    height: 7vw;
+    width: 7vw;
+    max-height: 35px;
+    max-width: 35px;
   }
 
 </style>

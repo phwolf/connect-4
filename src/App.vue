@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <div class="header">
+      {{ playerNames[player] }}'s turn
+    </div>
     <table>
       <tr v-for="(row, ridx) in bordConst">
         <td v-for="(col, cidx)  in row"> 
@@ -29,7 +32,8 @@ export default {
       dimension: {x: 7, y: 8},
       player: 0,
       bordConst: null,
-      winningDiscs: null
+      winningDiscs: null,
+      playerNames: ['orange', 'blue']
     }
   },
   mounted () {
@@ -229,19 +233,28 @@ export default {
 
 <style>
 table, th, td {
-    border: 1px solid black;
+    border: 2px solid #b3b3b3;
+    border-collapse: collapse;
+    background-color: lightgrey;
+}
+table {
+  margin: auto;
 }
 
-/*#app {
+#app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: darkslategrey;
   margin-top: 60px;
 }
 
-h1, h2 {
+.header {
+  font-size: 6vw;
+  margin-bottom: 10px;
+}
+/*h1, h2 {
   font-weight: normal;
 }
 
