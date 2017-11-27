@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  name: 'disc-tile',
+  name: 'disc-item',
   props: ['state', 'win', 'index'],
   data () {
     return {

@@ -10,13 +10,13 @@
     <table>
       <tr v-for="(row, ridx) in bordConst">
         <td v-for="(col, cidx)  in row"> 
-          <disc-tile 
+          <disc-item 
             v-bind:state="col"
             v-bind:win="winningDiscs[ridx][cidx]"
             v-bind:index="{ridx: ridx, cidx: cidx}"
             v-on:clicked="handleDisc"
             >
-            </disc-tile>  
+            </disc-item>  
         </td>
       </tr>
     </table>
@@ -29,22 +29,20 @@
           {{ winner }} wins!
           <button v-on:click="closeModal">ok</button>
         </div>
-        
       </div>
     </div>
 
   </div>
-
 </template>
 
 <script>
 
 import Vue from 'vue'
-import discTile from './discTile.vue'
+import discItem from './discItem.vue'
 
 export default {
   name: 'app',
-  components: { discTile },
+  components: { discItem },
   data () {
     return {
       dimension: {x: 7, y: 6},
@@ -66,10 +64,11 @@ export default {
       var correctedArray = this.applyGravity(this.bordConst, this.dimension.x, this.dimension.y);
       this.bordConst = correctedArray;
 
+      // switch player
       this.player = (this.player + 1) % 2;
       var result = this.checkWinCondition(this.bordConst, this.dimension.x, this.dimension.y);
 
-      // what to do when win happend
+      // what to do when win happened
       if (result.win) {
         result.discs.forEach( d => {
           Vue.set(this.winningDiscs[d.row], d.col, true);
