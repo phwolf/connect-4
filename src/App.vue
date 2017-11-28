@@ -14,7 +14,7 @@
             v-bind:state="col"
             v-bind:win="winningDiscs[ridx][cidx]"
             v-bind:index="{ridx: ridx, cidx: cidx}"
-            v-on:clicked="handleDisc"
+            v-on:disc-clicked="handleDisc"
             >
             </disc-item>  
         </td>

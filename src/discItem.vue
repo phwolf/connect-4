@@ -1,8 +1,8 @@
 <template>
   <div 
-    v-bind:class="[state === 0 || state === 1 ? 'tileclicked' : 'tile']"
+    v-bind:class="[state == 0 || state == 1 ? 'tileclicked' : 'tile']"
     v-bind:style="{
-      'background-color': state === 0 || state === 1 ? colors[state] : 'white',
+      'background-color': state == 0 || state == 1 ? colors[state] : 'white',
       'border': win ? 'solid 1.5px #e43437' : 'solid 1.5px lightgrey'
     }"
     v-on:click="handleClick"
@@ -22,8 +22,7 @@ export default {
   methods: {
     handleClick() {
       if (this.state == null) {
-        // console.log(this.index);
-        this.$emit('clicked', this.index);
+        this.$emit('disc-clicked', this.index);
       }
     }
   }
